@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { ArrowIcon, CloseIcon } from './Icons'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowIcon, CloseIcon, PlayIcon } from './Icons'
 import type { GalleryItem } from '../data/gallery'
 
 type LightboxProps = {
@@ -40,7 +40,7 @@ export function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProp
       </button>
       <figure className="lightbox-figure">
         {item.kind === 'video' ? (
-          <video key={item.id} src={item.src} controls autoPlay playsInline />
+          <LightboxVideo src={item.src} poster={item.thumb} title={item.title} />
         ) : (
           <img src={item.src} alt={item.title} />
         )}
@@ -49,5 +49,57 @@ export function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProp
         <ArrowIcon />
       </button>
     </div>
+  )
+}
+
+function LightboxVideo({ src, poster, title }: { src: string; poster: string; title: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [needsTap, setNeedsTap] = useState(true)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const tryPlay = () => {
+      const play = video.play()
+      if (play) {
+        play.then(() => setNeedsTap(false)).catch(() => setNeedsTap(true))
+      }
+    }
+
+    tryPlay()
+    return () => {
+      video.pause()
+    }
+  }, [src])
+
+  return (
+    <>
+      <video
+        ref={videoRef}
+        key={src}
+        poster={poster}
+        controls
+        playsInline
+        preload="auto"
+        onPlay={() => setNeedsTap(false)}
+      >
+        <source src={src} type="video/mp4" />
+      </video>
+      {needsTap && (
+        <button
+          type="button"
+          className="lightbox-video-play"
+          aria-label={`${title} oynat`}
+          onClick={() => {
+            const video = videoRef.current
+            if (!video) return
+            void video.play().then(() => setNeedsTap(false)).catch(() => setNeedsTap(true))
+          }}
+        >
+          <PlayIcon />
+        </button>
+      )}
+    </>
   )
 }

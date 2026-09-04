@@ -42,12 +42,11 @@ export function News() {
                 key={item.id}
                 onClick={() => setActiveIndex(index)}
               >
-                {item.kind === 'video' ? (
+                <img src={item.thumb} alt={item.title} loading="lazy" decoding="async" />
+                {item.kind === 'video' && (
                   <span className="gallery-play">
                     <PlayIcon />
                   </span>
-                ) : (
-                  <img src={item.thumb} alt={item.title} loading="lazy" decoding="async" />
                 )}
               </button>
             ))}

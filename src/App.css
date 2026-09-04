@@ -226,12 +226,12 @@
 
 .hero-image-team {
   display: block;
-  width: min(1180px, calc(100% - 40px));
+  width: min(960px, calc(100% - 40px));
   height: auto;
-  max-height: 520px;
+  aspect-ratio: 1062 / 947;
   margin: 0 auto 48px;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 62%;
 }
 
 .hero,
@@ -667,14 +667,19 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
-  align-items: stretch;
+  align-items: start;
 }
 
 .gallery-card {
+  display: block;
   position: relative;
+  width: 100%;
   aspect-ratio: 4 / 5;
+  height: auto;
+  align-self: start;
   padding: 0;
   border: 0;
+  overflow: hidden;
   background: var(--paper);
 }
 
@@ -734,10 +739,36 @@
 
 .lightbox-figure img,
 .lightbox-figure video {
+  display: block;
   width: 100%;
   max-height: 78vh;
   object-fit: contain;
   background: #000;
+}
+
+.lightbox-figure video {
+  min-height: min(70vh, 560px);
+  background: #111;
+}
+
+.lightbox-video-play {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--gold);
+}
+
+.lightbox-video-play svg {
+  width: 72px;
+  height: 72px;
+  padding: 18px 16px 18px 22px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
 }
 
 .lightbox-figure figcaption {
@@ -1125,7 +1156,11 @@
   }
 
   .lightbox-figure {
-    width: calc(100% - 16px);
+    width: min(100% - 16px, 420px);
+  }
+
+  .lightbox-figure video {
+    min-height: min(62vh, 520px);
   }
 
   .lightbox-close {

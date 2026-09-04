@@ -27,6 +27,12 @@ const videos = import.meta.glob('../assets/images/galleryImages/*.{mp4,webm,mov}
   import: 'default',
 }) as Record<string, string>
 
+const videoPosters = import.meta.glob('../assets/images/videoPosters/*.{jpeg,jpg,png,webp}', {
+  eager: true,
+  query: { w: '640', format: 'webp', quality: '70' },
+  import: 'default',
+}) as Record<string, string>
+
 function fileName(path: string) {
   return (path.split('?')[0] ?? path).split('/').pop() ?? path
 }
@@ -80,6 +86,16 @@ const imageItems: ParsedItem[] = Object.entries(imageThumbs).flatMap(([path, thu
   ]
 })
 
+function posterFor(order: number) {
+  const entry = Object.entries(videoPosters).find(([path]) => {
+    const match = fileName(path).match(/galeri(\d+)\./i)
+    return match ? Number(match[1]) === order : false
+  })
+  return entry?.[1]
+}
+
+const FIRST_NEWS_VIDEO = 56
+
 const videoItems: ParsedItem[] = Object.entries(videos).flatMap(([path, src]) => {
   const meta = parsePath(path)
   if (!meta || meta.kind !== 'video') return []
@@ -89,7 +105,7 @@ const videoItems: ParsedItem[] = Object.entries(videos).flatMap(([path, src]) =>
       id: `galeri-${meta.order}`,
       title: `Video ${meta.order}`,
       src,
-      thumb: src,
+      thumb: posterFor(meta.order) ?? src,
       kind: 'video' as const,
       section: 'news' as const,
       order: meta.order,
@@ -109,11 +125,19 @@ export const galleryPhotos = imageItems
 export const newsItems = [...videoItems, ...imageItems.filter((item) => item.section === 'news')]
   .sort((a, b) => {
     if (a.kind !== b.kind) return a.kind === 'video' ? -1 : 1
+    if (a.kind === 'video') {
+      if (a.order === FIRST_NEWS_VIDEO) return -1
+      if (b.order === FIRST_NEWS_VIDEO) return 1
+    }
     return a.order - b.order
   })
   .map(toItem)
 
-export const featuredGallery = galleryPhotos.slice(0, 4)
+const featuredLast = galleryPhotos.find((item) => item.id === 'galeri-36')
+
+export const featuredGallery = [...[4, 6, 10].map((index) => galleryPhotos[index]), featuredLast].filter(
+  (item): item is GalleryItem => Boolean(item),
+)
 
 export const GALLERY_HERO = galleryHero
 

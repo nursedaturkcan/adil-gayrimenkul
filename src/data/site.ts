@@ -5,12 +5,14 @@ export const site = {
   phoneHref: 'tel:+905384872420',
   whatsappHref: 'https://wa.me/905384872420',
   email: 'info@adilgayrimenkul.com',
-  address: 'Musalla Bağları Mah. Ankara Cad. No: 12, Selçuklu / Konya',
+  address: 'Kemerli cad nişantaşı mah. No:2/B Selçuklu / Konya',
   hours: 'Pazartesi – Cumartesi, 09:00 – 19:00',
-  mapLat: 37.888252,
-  mapLng: 32.497814,
+  mapLat: 37.87647,
+  mapLng: 32.479829,
 }
 
-export const mapEmbedSrc = `https://www.google.com/maps?q=${site.mapLat},${site.mapLng}+(${encodeURIComponent('ADİL GAYRİMENKUL')})&ll=${site.mapLat},${site.mapLng}&z=16&hl=tr&ie=UTF8&iwloc=A&output=embed`
+const mapQuery = encodeURIComponent(`${site.address} ADİL GAYRİMENKUL`)
 
-export const mapLink = `https://www.google.com/maps?q=${encodeURIComponent('ADİL GAYRİMENKUL')}@${site.mapLat},${site.mapLng}`
+export const mapEmbedSrc = `https://www.google.com/maps?q=${mapQuery}&ll=${site.mapLat},${site.mapLng}&z=17&hl=tr&ie=UTF8&iwloc=A&output=embed`
+
+export const mapLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`
