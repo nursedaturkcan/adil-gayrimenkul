@@ -38,19 +38,16 @@ export function News() {
             {newsItems.map((item, index) => (
               <button
                 type="button"
-                className="gallery-card"
+                className={item.kind === 'video' ? 'gallery-card is-video' : 'gallery-card'}
                 key={item.id}
                 onClick={() => setActiveIndex(index)}
               >
                 {item.kind === 'video' ? (
-                  <>
-                    <video src={`${item.src}#t=0.1`} muted playsInline preload="metadata" />
-                    <span className="gallery-play">
-                      <PlayIcon />
-                    </span>
-                  </>
+                  <span className="gallery-play">
+                    <PlayIcon />
+                  </span>
                 ) : (
-                  <img src={item.src} alt={item.title} />
+                  <img src={item.thumb} alt={item.title} loading="lazy" decoding="async" />
                 )}
               </button>
             ))}

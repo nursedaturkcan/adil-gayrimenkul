@@ -41,7 +41,7 @@ export function Gallery() {
                 key={item.id}
                 onClick={() => setActiveIndex(index)}
               >
-                <img src={item.src} alt={item.title} />
+                <img src={item.thumb} alt={item.title} loading="lazy" decoding="async" />
               </button>
             ))}
           </div>

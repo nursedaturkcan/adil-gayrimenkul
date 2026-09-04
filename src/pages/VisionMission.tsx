@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { HERO_IMAGE } from '../data/gallery'
-import teamPhoto from '../assets/images/team.jpeg'
+import teamPhoto from '../assets/images/team.jpeg?w=1200&format=webp&quality=72'
 import { ArrowIcon, CompassIcon, EyeIcon } from '../components/Icons'
 import { PageHero } from '../components/PageHero'
 
@@ -15,7 +15,13 @@ export function VisionMission() {
       />
 
       <section className="vision-section">
-        <img src={teamPhoto} alt="Adil Gayrimenkul ekibi" className="hero-image-team" />
+        <img
+          src={teamPhoto}
+          alt="Adil Gayrimenkul ekibi"
+          className="hero-image-team"
+          loading="lazy"
+          decoding="async"
+        />
         <div className="container vision-grid">
           <article id="vizyon" className="vision-card">
             <EyeIcon />

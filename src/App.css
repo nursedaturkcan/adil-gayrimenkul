@@ -678,8 +678,8 @@
   background: var(--paper);
 }
 
-.gallery-card .card-badge {
-  z-index: 1;
+.gallery-card.is-video {
+  background: #1a1a1a;
 }
 
 .gallery-play {

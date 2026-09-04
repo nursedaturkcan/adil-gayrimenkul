@@ -78,7 +78,7 @@ export function Home() {
             {featuredGallery.map((item) => (
               <Link to="/galeri" className="property-card" key={item.id}>
                 <div className="card-image">
-                  <img src={item.src} alt={item.title} />
+                  <img src={item.thumb} alt={item.title} loading="lazy" decoding="async" />
                 </div>
               
               </Link>
